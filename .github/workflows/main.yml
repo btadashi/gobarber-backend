@@ -1,0 +1,53 @@
+name: CI
+
+on:
+  push:
+    branches: [ master ]
+
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    # Correponde a cada passo que o nosso processo de integração contínua vai percorrer
+    steps:
+      # Pega a versão mais recente do nosso código
+      - uses: actions/checkout@v2
+      
+      # Instalar Node.js
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v2.1.4
+        with:
+          node-version: 14.x
+      
+      # Instalar as dependências do NPM/Yarn
+      - name: Install dependencies
+        run: yarn
+        
+      # Executar a build
+      - name: Run build
+        run: yarn build
+        
+     # Copiar a pasta 'dist' para dentro da DigitalOcean
+      - name: Copy dist to DigitalOcean
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          port: ${{ secrets.SSH_PORT }}
+          key: ${{ secrets.SSH_KEY }}  
+          source: "dist"
+          target: "test"
+      
+      # Demais passos necessários para executar o nosso código:
+                    
+          
+        # Substituir o códido existente na pasta 'dist' pelo novo código
+        # Entrar na DigitalOcean e executar as dependências (yarn)
+        # Executar as migratons do TyepORM
+        # Restart servidor Node.js
+      
+          
+          
+        

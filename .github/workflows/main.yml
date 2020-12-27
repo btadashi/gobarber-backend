@@ -29,7 +29,7 @@ jobs:
       - name: Run build
         run: yarn build
         
-     # Copiar a pasta 'dist' para dentro da DigitalOcean
+     # Copiar o código de nossa aplicação para dentro da DigitalOcean
       - name: Copy dist to DigitalOcean
         uses: appleboy/scp-action@master
         with:
@@ -37,7 +37,7 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           port: ${{ secrets.SSH_PORT }}
           key: ${{ secrets.SSH_KEY }}  
-          source: "."
+          source: ".,!node_modules"
           target: "~/app/gobarber-backend"
       
       # Demais passos necessários para executar o nosso código:

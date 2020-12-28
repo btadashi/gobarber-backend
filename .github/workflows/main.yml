@@ -30,7 +30,7 @@ jobs:
         run: yarn build
         
      # Copiar o código de nossa aplicação para dentro da DigitalOcean
-      - name: Copy dist to DigitalOcean
+      - name: Copy code to DigitalOcean
         uses: appleboy/scp-action@master
         with:
           host: ${{ secrets.SSH_HOST }}
